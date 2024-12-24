@@ -23,6 +23,7 @@ import ViewUser from './Pages/viewUser.jsx';
 import ViewMentor from './Pages/ViewMentors.jsx';
 import ErrorPage from './Pages/ErrorPage.jsx';
 import ChatPage from './Components/ChatPage.jsx';
+import ChatPanel from './Components/ChatPanel.jsx';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,20 @@ const router = createBrowserRouter([
       {
         path:"/",
         element:<Home/>
+      },
+      {
+        path:"/chat",
+        element:(
+          <AuthLayout authentication={false}>
+            <ChatPage/>
+          </AuthLayout>),
+
+          children:[
+            {
+              path:":slug",
+              element:<ChatPanel/>
+            }
+          ]
       },
       {
         path:"/404",

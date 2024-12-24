@@ -1,68 +1,89 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import DocumentService from "../Appwrite/CreateDocument";
+import { useSelector } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const ChatPage = () => {
-    const [newMessage, setNewMessage] = useState("");
-    const [messages, setMessages] = useState([
-        // Dummy messages for UI testing
-        { id: 1, sender: "user", content: "Hello, how can I help you today?" },
-        { id: 2, sender: "mentor", content: "Hi, I have a question about React." },
-        { id: 3, sender: "user", content: "Sure, feel free to ask." },
-    ]);
+    const navigate = useNavigate();
+    const userDetail = useSelector((state) => state.auth.userData);
+    const [chats, setChats] = useState([]);
+    const [selectedMentor, setSelectedMentor] = useState(null);
+    const [currUser, setCurrUser] = useState(null);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false); // For mobile view toggle
 
-    const handleSend = () => {
-        if (newMessage.trim()) {
-            const newMsg = { id: Date.now(), sender: "user", content: newMessage };
-            setMessages([...messages, newMsg]);
-            setNewMessage(""); // Clear the input
+    const getChats = async () => {
+        const user = await DocumentService.getEmailDetails(userDetail.email);
+        setCurrUser(user.UserName);
+        let ChatsWiths = [];
+        for (const element of user.ChatsWith) {
+            let usr = await DocumentService.getIdDetails(element);
+            ChatsWiths.push({ name: usr.UserName, id: usr.$id });
         }
+        setChats(ChatsWiths);
+    };
+
+    useEffect(() => {
+        const fetchChats = async () => {
+            await getChats();
+        };
+        fetchChats();
+    }, []);
+
+    const handleMentorClick = (mentorId) => {
+        setIsSidebarOpen(false); // Close sidebar on mobile after selection
+        navigate(`/chat/${currUser}_${mentorId}`);
     };
 
     return (
-        <div className="flex flex-col h-screen bg-gray-100">
-            {/* Header */}
-            <header className="bg-blue-600 text-white py-4 px-6 shadow-lg">
-                <h1 className="text-lg font-bold">Chat with Mentor</h1>
-            </header>
-
-            {/* Chat Messages */}
-            <div className="flex-1 overflow-y-auto p-4">
-                <div className="space-y-4">
-                    {messages.map((message) => (
-                        <div
-                            key={message.id}
-                            className={`flex ${
-                                message.sender === "user" ? "justify-end" : "justify-start"
-                            }`}
-                        >
+        <div className="flex flex-col h-[90vh] overflow-y-hidden lg:flex-row bg-gray-100">
+            {/* Sidebar */}
+            <aside
+                className={`absolute lg:relative lg:w-1/4 bg-white shadow-lg border-r h-full transition-transform transform ${
+                    isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+                } lg:translate-x-0`}
+            >
+                <header className="bg-blue-600 text-white py-4 px-6 text-lg font-bold flex justify-between items-center lg:static">
+                    Chats
+                    <button
+                        className="text-white lg:hidden"
+                        onClick={() => setIsSidebarOpen(false)}
+                    >
+                        ✕
+                    </button>
+                </header>
+                <div className="p-4 space-y-4 overflow-y-auto">
+                    {chats.length > 0 ? (
+                        chats.map((mentor) => (
                             <div
-                                className={`max-w-sm px-4 py-2 rounded-lg ${
-                                    message.sender === "user"
-                                        ? "bg-blue-500 text-white"
-                                        : "bg-gray-300 text-black"
+                                key={mentor.id}
+                                onClick={() => handleMentorClick(mentor.name)}
+                                className={`cursor-pointer p-4 rounded-lg border ${
+                                    selectedMentor?.id === mentor.id
+                                        ? "bg-blue-100 border-blue-500"
+                                        : "bg-gray-100 border-gray-300"
                                 }`}
                             >
-                                {message.content}
+                                <h2 className="font-bold">{mentor.name}</h2>
                             </div>
-                        </div>
-                    ))}
+                        ))
+                    ) : (
+                        <p className="text-center text-gray-600">
+                            No previous mentors found.
+                        </p>
+                    )}
                 </div>
-            </div>
+            </aside>
 
-            {/* Message Input */}
-            <div className="bg-white border-t border-gray-300 px-4 py-3 flex items-center">
-                <input
-                    type="text"
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    placeholder="Type a message..."
-                    className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+            {/* Chat Panel */}
+            <div className="flex-1 flex flex-col">
+                {/* Mobile Toggle Button */}
                 <button
-                    onClick={handleSend}
-                    className="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none"
+                    className="bg-blue-600 text-white py-2 px-4 lg:hidden"
+                    onClick={() => setIsSidebarOpen(true)}
                 >
-                    Send
+                    Open Chats
                 </button>
+                <Outlet />
             </div>
         </div>
     );

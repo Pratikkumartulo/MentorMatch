@@ -141,11 +141,23 @@ const Header = () => {
           </li>
           </>
         )}
+        {isAdmin ?
+        (
+        <>
         <li>
-          <a className="text-sm text-gray-400 hover:text-gray-500" href="#">
-            Services
-          </a>
+          <Link to={""}>
+          Services
+          </Link>
         </li>
+        </>):(
+          <>
+          <li>
+            <Link className="text-sm text-blue-600 font-bold" to={(authStatus)?`/chat`:`/login`}>
+            Chats
+            </Link>
+          </li>
+          </>
+        )}
         <li className={`text-gray-300 ${ isNavbarOpen ? 'hidden' : 'block'}`}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

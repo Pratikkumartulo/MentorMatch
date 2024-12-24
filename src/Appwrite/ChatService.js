@@ -4,7 +4,6 @@ import conf from "../config/EnvConfig";
 export class ChatService {
     client = new Client();
     databases;
-    realtime;
 
     constructor() {
         this.client
@@ -12,7 +11,6 @@ export class ChatService {
             .setProject(conf.projectID); // Appwrite project ID
 
         this.databases = new Databases(this.client);
-        this.realtime = new Realtime(this.client);
     }
 
     // Create a new chat message
@@ -65,34 +63,34 @@ export class ChatService {
     }
 
     // Handle user typing status (Optional: Implement a `typing` collection or use additional fields)
-    async setUserTypingStatus(chatRoomId, userId, isTyping) {
-        try {
-            const typingStatus = await this.databases.updateDocument(
-                conf.databaseID,
-                conf.typingCollectionID, // Optional collection for typing indicators
-                userId,
-                { chatRoomId, isTyping }
-            );
-            return typingStatus;
-        } catch (error) {
-            console.error("Error updating typing status:", error);
-        }
-    }
+    // async setUserTypingStatus(chatRoomId, userId, isTyping) {
+    //     try {
+    //         const typingStatus = await this.databases.updateDocument(
+    //             conf.databaseID,
+    //             conf.typingCollectionID, // Optional collection for typing indicators
+    //             userId,
+    //             { chatRoomId, isTyping }
+    //         );
+    //         return typingStatus;
+    //     } catch (error) {
+    //         console.error("Error updating typing status:", error);
+    //     }
+    // }
 
     // Fetch typing status for a specific chat room
-    async getTypingStatus(chatRoomId) {
-        try {
-            const typingStatuses = await this.databases.listDocuments(
-                conf.databaseID,
-                conf.typingCollectionID,
-                [Query.equal("chatRoomId", chatRoomId)]
-            );
-            return typingStatuses.documents;
-        } catch (error) {
-            console.error("Error fetching typing status:", error);
-            return [];
-        }
-    }
+    // async getTypingStatus(chatRoomId) {
+    //     try {
+    //         const typingStatuses = await this.databases.listDocuments(
+    //             conf.databaseID,
+    //             conf.typingCollectionID,
+    //             [Query.equal("chatRoomId", chatRoomId)]
+    //         );
+    //         return typingStatuses.documents;
+    //     } catch (error) {
+    //         console.error("Error fetching typing status:", error);
+    //         return [];
+    //     }
+    // }
 }
 
 const ChatServiceInstance = new ChatService();

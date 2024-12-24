@@ -90,6 +90,46 @@ export class createDcoument {
             console.log("Update error for post : ",err)
         }
     }
+    async updateUserChatDetails(username1, username2) {
+      try {
+          // Fetch user details (ensure getIdDetails is async)
+          const usr1 = await this.getIdDetails(username1);
+          const usr2 = await this.getIdDetails(username2);
+  
+          // Extract ChatsWith arrays, handle undefined
+          const chatsWith1 = usr1.ChatsWith || [];
+          const chatsWith2 = usr2.ChatsWith || [];
+  
+          // Add usernames if not already present
+          if (!chatsWith1.includes(username2)) {
+              chatsWith1.push(username2);
+          }
+          if (!chatsWith2.includes(username1)) {
+              chatsWith2.push(username1);
+          }
+  
+          // Update both users' ChatsWith fields in parallel
+          await Promise.all([
+              this.databases.updateDocument(
+                  conf.databaseID,
+                  conf.collectioNID,
+                  usr1.$id,
+                  { ChatsWith: chatsWith1 }
+              ),
+              this.databases.updateDocument(
+                  conf.databaseID,
+                  conf.collectioNID,
+                  usr2.$id,
+                  { ChatsWith: chatsWith2 }
+              ),
+          ]);
+  
+          // console.log("Chat details updated successfully for", username1, "and", username2);
+      } catch (err) {
+          console.error("Error updating chat details for", username1, "and", username2, ":", err);
+      }
+  }
+  
     async follow(slug, { UserName, currentId }) {
         try {
           // Fetch the target user document (the user being followed)
@@ -208,9 +248,6 @@ export class createDcoument {
       // console.log(user.documents);
       return mentors;
       }
-      
-      
-
 }
 const DocumentService = new createDcoument()
 export default DocumentService

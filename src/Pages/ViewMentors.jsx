@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import DocumentService from "../Appwrite/CreateDocument";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ViewMentor = () => {
+  const navigate = useNavigate();
+  const userDetail = useSelector((state) => state.auth.userData);
+  if(!userDetail){
+    navigate("/login");
+  }
   const [searchTerm, setSearchTerm] = useState("");
   const {slug} = useParams();
   const [allmentors,setAllmentors] = useState([]);
+  const [currUser, setcurrUser] =useState(null);
+
   const fetchMentor = async(slug)=>{
     const mentor = await DocumentService.getMentor(slug);
     // console.log(mentor);
@@ -21,6 +30,11 @@ const ViewMentor = () => {
   }
 
   useEffect(()=>{
+    const fetchUser = async ()=>{
+      const user = await DocumentService.getEmailDetails(userDetail.email);
+      setcurrUser(user.UserName);
+    }
+    fetchUser();
     fetchMentor(slug);
   })
 
@@ -54,6 +68,10 @@ const ViewMentor = () => {
   const handleSearch = (e) => {
     setSearchTerm(e.target.value.toLowerCase());
   };
+
+  const hanldeConnect = (mentor)=>{
+    navigate(`/chat/${currUser}_${mentor}`);
+  }
 
   const filteredMentors = allmentors.filter(
     (mentor) =>
@@ -104,7 +122,7 @@ const ViewMentor = () => {
                 {/* <p className="text-yellow-500 text-sm">Rating: {mentor.rating}</p> */}
                 <button
                   className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-                >
+                onClick={()=>hanldeConnect(mentor.name)}>
                   Connect
                 </button>
                 <Link to={`/u/${mentor.name}`}
