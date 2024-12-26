@@ -40,7 +40,7 @@ const ChatPage = () => {
             <aside
                 className={`absolute lg:relative lg:w-1/4 bg-white shadow-lg border-r h-full transition-transform transform ${
                     isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-                } lg:translate-x-0`}
+                } lg:translate-x-0 z-10`}
             >
                 <header className="bg-blue-600 text-white py-4 px-6 text-lg font-bold flex justify-between items-center lg:static">
                     Chats
@@ -75,10 +75,10 @@ const ChatPage = () => {
             </aside>
 
             {/* Chat Panel */}
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col relative">
                 {/* Mobile Toggle Button */}
                 <button
-                    className="bg-blue-600 text-white py-2 px-4 lg:hidden"
+                    className="bg-blue-600 text-white py-2 px-4 lg:hidden sticky top-0"
                     onClick={() => setIsSidebarOpen(true)}
                 >
                     Open Chats

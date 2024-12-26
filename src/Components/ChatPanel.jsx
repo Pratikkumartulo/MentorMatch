@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { useParams } from "react-router-dom";
 import ChatService from "../Appwrite/ChatService";
 import DocumentService from "../Appwrite/CreateDocument";
 
+
 const ChatPanel = () => {
+    const messagesEndRef = useRef(null);
     const { slug } = useParams();
     const [username1, username2] = slug.split("_");
     const [messages, setMessages] = useState([]);
@@ -50,6 +52,14 @@ const ChatPanel = () => {
             if (unsubscribe2) unsubscribe2();
         };
     }, [chatRoomId1, chatRoomId2]);
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
 
     const handleSend = async () => {
         if (newMessage.trim()) {
@@ -78,7 +88,7 @@ const ChatPanel = () => {
             </header>
 
             {/* Chat Messages */}
-            <div className="flex-1 h-[68vh] overflow-y p-4 bg-red-200">
+            <div className="flex-1 overflow-y-scroll p-4 max-h-[70vh] bg-red-200">
                 {messages.length > 0 ? (
                     <div className="space-y-4">
                         {messages.map((message) => (
@@ -97,6 +107,7 @@ const ChatPanel = () => {
                                 >
                                     {message.message}
                                 </div>
+                                <div ref={messagesEndRef}></div>
                             </div>
                         ))}
                     </div>
