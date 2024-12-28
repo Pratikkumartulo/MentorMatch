@@ -21,7 +21,7 @@ const AdminLogin = () => {
       null;
     }
     const admin = await AdminauthServie.Adminlogin({...data});
-    console.log(admin);
+    // console.log(admin);
     const adminData = await AdminauthServie.getCurrentAdmin();
     if(adminData.labels.includes('admin')){
       const payload = {

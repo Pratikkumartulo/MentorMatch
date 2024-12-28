@@ -14,9 +14,9 @@ export class AppwriteAdminServise{
     async Adminlogin({email,password}){
         try{
             const session = await this.account.createEmailPasswordSession(email, password);
-            console.log(session);
+            // console.log(session);
             const pref = await this.account.getPrefs();
-            console.log(pref);
+            // console.log(pref);
             if(pref.isAdmin){
                 return session;
             }else{

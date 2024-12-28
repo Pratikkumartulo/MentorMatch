@@ -100,7 +100,7 @@ const Home = () => {
             </div>
           </form>
       </div>
-      </div>
+    </div>
       <div className="bg-gray-100">
       {/* Hero Section */}
       <section className="bg-blue-600 text-white py-16">

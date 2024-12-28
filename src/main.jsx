@@ -19,7 +19,7 @@ import Application from './Components/Application.jsx';
 import AdminPage from './Components/Admin.jsx';
 import AdminLogin from './Components/AdminLogin.jsx';
 import Adminapplication from './Components/AdminApplication.jsx';
-import ViewUser from './Pages/viewUser.jsx';
+import ViewUser from './Pages/ViewUser.jsx';
 import ViewMentor from './Pages/ViewMentors.jsx';
 import ErrorPage from './Pages/ErrorPage.jsx';
 import ChatPage from './Components/ChatPage.jsx';
@@ -114,6 +114,10 @@ const router = createBrowserRouter([
             <Adminapplication/>
           </AuthLayout>
         )
+      },
+      {
+        path:"*",
+        element:<ErrorPage/>
       }
     ]
   },

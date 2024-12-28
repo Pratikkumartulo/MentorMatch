@@ -12,7 +12,7 @@ const AdminPage = () => {
   const [userDeails,setuserDetails] =useState([]);
   const getAllUsers = async () => {
     const users = await DocumentService.getAllUser();
-    console.log(users);
+    // console.log(users);
     setuserDetails(users.documents);
     setAllusers(users.total);
     let mentorCount = 0;
@@ -22,11 +22,11 @@ const AdminPage = () => {
       }
     });
     setMentors(mentorCount);
-    console.log(mentorCount);
+    // console.log(mentorCount);
   };
   const getAllApplications = async ()=>{
     const applications = await ApplicationService.GetAllApplications();
-    console.log(applications);
+    // console.log(applications);
     setApplicationsno(applications.total);
   }
 

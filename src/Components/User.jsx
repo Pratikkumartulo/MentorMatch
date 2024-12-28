@@ -3,11 +3,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import DocumentService from "../Appwrite/CreateDocument";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import ratingService from "../Appwrite/reviewConfig";
 
 const User = () => {
   const authStatus = useSelector((state) => state.auth.userData);
   const navigate = useNavigate();
   const { slug } = useParams();
+  const [ratings,setRatings] = useState([]);
  
   const [userDetails, setUserDetails] = useState({
     name: "John Doe",
@@ -18,6 +20,11 @@ const User = () => {
     followers:0,
     followings:0,
   });
+
+  const fetchMyReviews=async()=>{
+    const reviews = await ratingService.getMyReviews(userDetails.UserName);
+    setRatings(reviews);
+  }
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -51,6 +58,7 @@ const User = () => {
     skills: userDetails.SpecializedIn,
     isUser:userDetails.isUser,
   };
+  fetchMyReviews();
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
@@ -116,6 +124,27 @@ const User = () => {
             ))):null}
           </ul>
         </section>
+        <section className="bg-white shadow rounded-lg p-6">
+            <h3 className="text-lg font-bold mb-3">Ratings</h3>
+              <ul className="list-disc pl-5 text-gray-700">
+                {(ratings.length)>0
+                  ?(
+                  <div className="flex gap-4 flex-wrap">{
+                    ratings.map((rate,index)=>(
+                      <div key={index} className="p-4 rounded-lg flex flex-col gap-2 flex-wrap bg-zinc-300 w-fit">
+                      <ul className="list-none">
+                        <Link to={`/u/${rate.ratedBy}`}><li className="font-bold">To : {rate.ratingTo}</li></Link>
+                          <li>{rate.rating} ⭐</li>
+                          <li>{rate.review}</li>
+                      </ul>
+                      </div>
+                      ))
+                    }</div>
+                    ) : (
+                      <li>No Reviews.</li>
+                    )}
+                  </ul>
+          </section>
       </main>
     </div>
   );
