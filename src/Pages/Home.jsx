@@ -23,8 +23,8 @@ const Home = () => {
     <div className='flex flex-col overflow-hidden relative'>
       <Header/>
       <QuoteBar/>
-      <div className={`flex flex-col absolute h-1/4 w-3/4 bg-green-200 top-[25%] left-[50%] translate-x-[-50%] translate-y-[-50%] ${(dialogbox)?null:"hidden"}`}>
-      <div className='h-[10%] w-full bg-green-500 relative'>
+      <div className={`flex flex-col absolute h-1/4 w-3/4 bg-blue-200 top-[25%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-lg overflow-hidden ${(dialogbox)?null:"hidden"}`}>
+      <div className='h-[10%] w-full bg-yellow-500 relative'>
         <div className='h-full z-20 w-[100%] text-center text-xl'>
           Tell us what do you want to talk about
         </div>

@@ -10,7 +10,7 @@ const Adminapplication = () => {
   const [allusers, setAllusers] = useState(0);
   const getAllUsers = async ()=>{
     const users = await DocumentService.getAllUser();
-    console.log(users);
+    // console.log(users);
     setAllusers(users.total);
   }
 
@@ -28,7 +28,7 @@ const Adminapplication = () => {
         ItemSet['status']=item.IsOpen?"Pending":"Closed",
         ItemSet['Accepted']=item.Accepted
         AppliList.push(ItemSet);
-        console.log(ItemSet)
+        // console.log(ItemSet)
     })
     setApplications(AppliList);
   }
