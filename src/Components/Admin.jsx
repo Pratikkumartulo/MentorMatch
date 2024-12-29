@@ -3,20 +3,16 @@ import toast, { Toaster } from "react-hot-toast";
 import DocumentService from "../Appwrite/CreateDocument";
 import ApplicationService from "../Appwrite/Applicationconfig";
 import { Link } from "react-router-dom";
-import AdminauthServie from "../Appwrite/Adminconfig";
-import { useNavigate } from "react-router-dom";
 
 const AdminPage = () => {
-  const navigate = useNavigate();
   const [applications, setApplications] = useState([]);
   const [applicationno, setApplicationsno] = useState(0);
   const [allusers, setAllusers] = useState(0);
   const [mentors,setMentors] = useState(0);
   const [userDeails,setuserDetails] =useState([]);
-  const [viewPage,setViewPage] = useState(false);
   const getAllUsers = async () => {
     const users = await DocumentService.getAllUser();
-    // console.log(users);
+    console.log(users);
     setuserDetails(users.documents);
     setAllusers(users.total);
     let mentorCount = 0;
@@ -26,26 +22,17 @@ const AdminPage = () => {
       }
     });
     setMentors(mentorCount);
-    // console.log(mentorCount);
+    console.log(mentorCount);
   };
   const getAllApplications = async ()=>{
     const applications = await ApplicationService.GetAllApplications();
-    // console.log(applications);
+    console.log(applications);
     setApplicationsno(applications.total);
-  }
-
-  const verifyAdmin = async ()=>{
-    const adminData = await AdminauthServie.getCurrentAdmin();
-    if(!adminData.labels.includes('admin')){
-      navigate("/");
-    }else{
-      setViewPage(true);
-    }
   }
 
   // Mock data - Replace this with actual API calls to fetch applications
   useEffect(() => {
-    verifyAdmin();
+    
     const fetchApplications = async () => {
       getAllUsers();
       getAllApplications();
@@ -94,8 +81,6 @@ const AdminPage = () => {
   };
 
   return (
-      (viewPage)?
-      (
     <div className="min-h-screen bg-gray-100 py-10">
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">
@@ -164,7 +149,7 @@ const AdminPage = () => {
         </div>
       </div>
       <Toaster position="top-right" />
-    </div>):null
+    </div>
   );
 };
 

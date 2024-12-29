@@ -100,13 +100,13 @@ const User = () => {
               <div>
                 <div className="flex justify-center items-center flex-col">
                   <div>{userDetails.Following.length}</div>
-                  <div>Following</div>
+                  <div><Link to={`/u/${user.name}/followings`}>Followings</Link></div>
                 </div>
               </div>
             </div>):
             (<div className="flex justify-center items-center flex-col">
               <div>{(userDetails.Following==undefined)?0:userDetails.Following.length}</div>
-              <div>Following</div>
+              <div><Link to={`/u/${user.name}/followings`}>Followings</Link></div>
             </div>)}
             {!(user.isUser)?null:(<Link to={`/user/${authStatus.$id}/application`} className="bg-green-500 p-1 rounded-lg">Be a mentor</Link>)}
           </div>

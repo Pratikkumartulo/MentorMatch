@@ -8,7 +8,6 @@ const Followers = () => {
 
   const getFollowers = async () => {
     const followers = await DocumentService.getIdDetails(slug);
-    console.log(followers);
     setFollowers(followers.Follower);
   };
 

@@ -25,6 +25,7 @@ import ErrorPage from './Pages/ErrorPage.jsx';
 import ChatPage from './Components/ChatPage.jsx';
 import ChatPanel from './Components/ChatPanel.jsx';
 import Followers from './Pages/Followers.jsx';
+import Followings from './Pages/Followings.jsx';
 
 const router = createBrowserRouter([
   {
@@ -80,6 +81,14 @@ const router = createBrowserRouter([
         element:(
           <AuthLayout authentication={false}>
             <Followers/>
+          </AuthLayout>
+        )
+      },
+      {
+        path:"/u/:slug/followings",
+        element:(
+          <AuthLayout authentication={false}>
+            <Followings/>
           </AuthLayout>
         )
       },

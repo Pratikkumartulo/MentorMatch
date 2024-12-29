@@ -157,7 +157,7 @@ const ViewUser = () => {
               </div>):null}
               <div className="flex flex-col items-center">
                 <div>{user.followings}</div>
-                <div>Following</div>
+                <div><Link to={`followings`}>Followings</Link></div>
                 {!(isAdmin)?!(userDetails.isUser)?!(isFollow)?<button onClick={() => HandleFollow(userDetails.$id, { UserName: currUserName, currentId: currUserId })} className="bg-blue-500 text-sm px-2 rounded-sm">Follow</button>:<button onClick={() => HandleUnFollow(userDetails.$id, { UserName: currUserName, currentId: currUserId })} className="bg-red-500 text-white text-sm px-2 rounded-sm">Unfollow</button>:null:null}
               </div>
             </div>
