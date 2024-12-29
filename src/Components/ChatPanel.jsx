@@ -1,5 +1,5 @@
 import React, { useState, useEffect,useRef } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ChatService from "../Appwrite/ChatService";
 import DocumentService from "../Appwrite/CreateDocument";
 import { useSelector } from "react-redux";
@@ -156,7 +156,8 @@ const ChatPanel = () => {
         <main className="flex-1 flex flex-col bg-white">
             {/* Header */}
             <header className="relative bg-blue-600 text-white py-4 px-6 shadow-lg flex justify-between items-center"> 
-                <h1 className="text-lg font-bold">{`Chat with ${username2}`}</h1>
+                <h1 className="text-lg font-bold">
+                    <Link to={`/u/${username2}`}>{`${username2}`}</Link></h1>
                 {canRate?<button onClick={openDialogBox}>Rate</button>:null}
             </header>
         <div className={`flex flex-col absolute h-fit w-3/4 bg-green-200 top-[25%] left-[50%] translate-x-[-50%] translate-y-[-50%] ${(dialogbox)?null:"hidden"}`}>
