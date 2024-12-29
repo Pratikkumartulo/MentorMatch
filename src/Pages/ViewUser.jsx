@@ -199,7 +199,7 @@ const ViewUser = () => {
               ))
             }</div>
             ) : (
-              <li>No skills listed.</li>
+              <li>No review yet.</li>
             )}
           </ul>
         </section>

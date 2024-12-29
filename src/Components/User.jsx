@@ -10,6 +10,7 @@ const User = () => {
   const navigate = useNavigate();
   const { slug } = useParams();
   const [ratings,setRatings] = useState([]);
+  const [myRating,setmyRating] = useState([]);
  
   const [userDetails, setUserDetails] = useState({
     name: "John Doe",
@@ -24,6 +25,8 @@ const User = () => {
   const fetchMyReviews=async()=>{
     const reviews = await ratingService.getMyReviews(userDetails.UserName);
     setRatings(reviews);
+    const myreviews = await ratingService.getReviews(userDetails.UserName);
+    setmyRating(myreviews)
   }
 
   useEffect(() => {
@@ -125,7 +128,7 @@ const User = () => {
           </ul>
         </section>
         <section className="bg-white shadow rounded-lg p-6">
-            <h3 className="text-lg font-bold mb-3">Ratings</h3>
+            <h3 className="text-lg font-bold mb-3">Ratings by me</h3>
               <ul className="list-disc pl-5 text-gray-700">
                 {(ratings.length)>0
                   ?(
@@ -144,7 +147,30 @@ const User = () => {
                       <li>No Reviews.</li>
                     )}
                   </ul>
-          </section>
+        </section>
+        {!(userDetails.isUser)?
+              <section className="bg-white shadow rounded-lg p-6">
+                  <h3 className="text-lg font-bold mb-3">Ratings</h3>
+                  <ul className="list-disc pl-5 text-gray-700">
+                  {(myRating.length)>0
+                    ?(
+                      <div className="flex gap-4 flex-wrap">{
+                        myRating.map((rate,index)=>(
+                        <div key={index} className="p-4 rounded-lg flex flex-col gap-2 flex-wrap bg-zinc-300 w-fit">
+                          <ul className="list-none">
+                            <Link to={`/u/${rate.ratedBy}`}><li className="font-bold">{rate.ratedBy}</li></Link>
+                            <li>{rate.rating} ⭐</li>
+                            <li>{rate.review}</li>
+                          </ul>
+                        </div>
+                      ))
+                    }</div>
+                    ) : (
+                      <li>No review yet.</li>
+                    )}
+                  </ul>
+              </section>
+            :null}
       </main>
     </div>
   );
