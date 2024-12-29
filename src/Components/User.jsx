@@ -95,7 +95,7 @@ const User = () => {
             (<div className="flex wrap gap-3">
               <div className="flex justify-center items-center flex-col">
                 <div>{userDetails.Follower.length}</div>
-                <div>Followers</div>
+                <div> <Link to={`/u/${user.name}/followers`}>Followers</Link></div>
               </div>
               <div>
                 <div className="flex justify-center items-center flex-col">

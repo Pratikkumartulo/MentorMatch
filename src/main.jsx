@@ -24,6 +24,7 @@ import ViewMentor from './Pages/ViewMentors.jsx';
 import ErrorPage from './Pages/ErrorPage.jsx';
 import ChatPage from './Components/ChatPage.jsx';
 import ChatPanel from './Components/ChatPanel.jsx';
+import Followers from './Pages/Followers.jsx';
 
 const router = createBrowserRouter([
   {
@@ -71,6 +72,14 @@ const router = createBrowserRouter([
         element:(
           <AuthLayout authentication={false}>
             <ViewUser/>
+          </AuthLayout>
+        )
+      },
+      {
+        path:"/u/:slug/followers",
+        element:(
+          <AuthLayout authentication={false}>
+            <Followers/>
           </AuthLayout>
         )
       },

@@ -153,7 +153,7 @@ const ViewUser = () => {
             <div className="flex gap-3">
               {!(userDetails.isUser)?(<div className="flex flex-col items-center">
                 <div>{user.followers}</div>
-                <div>Followers</div>
+                <div><Link to={`followers`}>Followers</Link></div>
               </div>):null}
               <div className="flex flex-col items-center">
                 <div>{user.followings}</div>
