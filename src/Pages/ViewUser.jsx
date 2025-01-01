@@ -70,7 +70,7 @@ const ViewUser = () => {
         setIsAdmin(true);
     }
     fetchUserDetails();
-  }, []);
+  }, [userDetails]);
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
@@ -95,7 +95,7 @@ const ViewUser = () => {
     ratings:userDetails.ratings || [],
     ProfileImage:src,
   };
-  console.log(user.ProfileImage);
+  // console.log(user.ProfileImage);
 
   const calculaterate = ()=>{
     if(user.ratings.length>0){
