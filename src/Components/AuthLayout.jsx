@@ -21,7 +21,7 @@ const Protected = ({ children, authentication = true }) => {
         if (isMounted) {
           if (!userData) {
             dispatch(StatusFailure("You have to log in!"));
-            navigate("/admin/login");
+            navigate("/login");
           } else {
             setLoader(false);
           }

@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import DocumentService from "../Appwrite/CreateDocument";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Card from "../Components/Card";
 
 const ViewMentor = () => {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ const ViewMentor = () => {
       mentorSet['id'] = ment.$id,
       mentorSet['name'] = ment.UserName,
       mentorSet['expertise'] = ment.SpecializedIn
+      mentorSet['ProfileImage'] = ment.ProfileImage
       mentors.push(mentorSet);
     });
     setAllmentors(mentors);
@@ -69,9 +71,7 @@ const ViewMentor = () => {
     setSearchTerm(e.target.value.toLowerCase());
   };
 
-  const hanldeConnect = (mentor)=>{
-    navigate(`/chat/${currUser}_${mentor}`);
-  }
+  
 
   const filteredMentors = allmentors.filter(
     (mentor) =>
@@ -94,6 +94,7 @@ const ViewMentor = () => {
       <div className="container mx-auto px-4 py-6">
         <input
           type="text"
+          id="SearchBar"
           placeholder="Search mentors by name or expertise..."
           className="w-full p-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring focus:border-blue-500"
           value={searchTerm}
@@ -106,30 +107,7 @@ const ViewMentor = () => {
         {filteredMentors.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredMentors.map((mentor) => (
-              <div
-                key={mentor.id}
-                className="bg-white shadow-lg rounded-lg p-4 flex flex-col items-center"
-              >
-                <img
-                  src="https://via.placeholder.com/100"
-                  alt={mentor.name}
-                  className="w-24 h-24 rounded-full mb-4 border-2 border-blue-600"
-                />
-                <h2 className="text-lg font-bold text-center">{mentor.name}</h2>
-                <p className="text-gray-600 text-sm text-center">
-                  {mentor.expertise.join(", ")}
-                </p>
-                {/* <p className="text-yellow-500 text-sm">Rating: {mentor.rating}</p> */}
-                <button
-                  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-                onClick={()=>hanldeConnect(mentor.name)}>
-                  Connect
-                </button>
-                <Link to={`/u/${mentor.name}`}
-                  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                    visit
-                </Link>
-              </div>
+              <Card mentor={mentor} key={mentor.name}/>
             ))}
           </div>
         ) : (

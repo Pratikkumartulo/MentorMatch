@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import DocumentService from '../Appwrite/CreateDocument';
+import FollowCard from '../Components/FollowCard';
 
 const Followers = () => {
   const [Followers, setFollowers] = useState([]);
@@ -24,7 +25,7 @@ const Followers = () => {
           {Followers.map((follower, index) => (
             <li key={index} className="flex items-center p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
               <div className="flex-1">
-                <span className="text-lg font-medium text-gray-700">{follower}</span>
+                <FollowCard userName={follower}/>
               </div>
             </li>
           ))}

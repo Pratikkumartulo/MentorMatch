@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import DocumentService from "../Appwrite/CreateDocument";
 import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import fileService from "../Appwrite/uploadFile";
 
 const UserEdit = () => {
   const { slug } = useParams();
@@ -17,6 +18,7 @@ const UserEdit = () => {
     AboutYou: "",
     phone: "",
     SpecializedIn: [],
+    ProfileImage:""
   });
 
   const {
@@ -44,6 +46,7 @@ const UserEdit = () => {
         AboutYou: userData.AboutYou || "",
         phone: userData.Phone || "",
         SpecializedIn: userData.SpecializedIn || [],
+        ProfileImage:userData.ProfileImage || ""
       };
 
       setUserDetails(fetchedDetails);
@@ -59,9 +62,18 @@ const UserEdit = () => {
   }, [authStatus]);
 
   const submit = async (data) => {
-    // console.log(data);
+    console.log(data);
+    // console.log(file);
+    let file;
+      if (data.profileimg && data.profileimg.length > 0) {
+        file = await fileService.uploadFile(data.profileimg[0]);
+        if (userDetails.ProfileImage.length > 0) {
+          let status = await fileService.deleteFile(userDetails.ProfileImage);
+          console.log(status);  
+        }
+      }
     try {
-      await DocumentService.updateUserDetails(userDetails.Id, {...data});
+      await DocumentService.updateUserDetails(userDetails.Id, {...data,ProfileImage:file?file.$id:userDetails.ProfileImage}); 
       toast.success("Profile updated successfully!");
       navigate(`/user/${slug}`);
     } catch (error) {
@@ -84,7 +96,21 @@ const UserEdit = () => {
         <form
           className="bg-white shadow rounded-lg p-6"
           onSubmit={handleSubmit(submit)}
-        >
+        >  
+          {/* Profile Photo */}
+          <div className="mb-4 flex justify-center items-center">
+            <label htmlFor="profileimg" className="cursor-pointer">
+              <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-gray-300 flex justify-center items-center bg-gray-100">
+                <input
+                  type="file"
+                  id="profileimg"
+                  {...register("profileimg")}
+                  className="absolute opacity-0 cursor-pointer"
+                />
+                <span className="text-gray-500">Upload</span>
+              </div>
+            </label>
+          </div>
           {/* Username */}
           <div className="mb-4">
             <label htmlFor="UserName" className="block text-sm font-medium text-gray-700">

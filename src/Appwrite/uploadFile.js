@@ -39,6 +39,12 @@ export class fileServices{
             return false;
         }
     }
+    async getFilePreview(fileId){
+        return this.bucket.getFilePreview(
+            conf.bucketID,
+            fileId
+        )
+    }
 }
 
 const fileService = new fileServices()

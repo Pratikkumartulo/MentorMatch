@@ -4,6 +4,8 @@ import DocumentService from "../Appwrite/CreateDocument";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ratingService from "../Appwrite/reviewConfig";
+import fileService from "../Appwrite/uploadFile";
+import { use } from "react";
 
 const User = () => {
   const authStatus = useSelector((state) => state.auth.userData);
@@ -11,6 +13,7 @@ const User = () => {
   const { slug } = useParams();
   const [ratings,setRatings] = useState([]);
   const [myRating,setmyRating] = useState([]);
+  const [src,setSrc] = useState(null)
  
   const [userDetails, setUserDetails] = useState({
     name: "John Doe",
@@ -20,6 +23,8 @@ const User = () => {
     isUser:true,
     followers:0,
     followings:0,
+    ProfileImage:null,
+
   });
 
   const fetchMyReviews=async()=>{
@@ -39,7 +44,13 @@ const User = () => {
       if (authStatus && slug === authStatus.$id) {
         try {
           const userData = await DocumentService.getEmailDetails(authStatus.email);
-          setUserDetails(userData); // Set fetched user details in state
+          setUserDetails(userData);
+          if(userData.ProfileImage!=null){
+            let link = await fileService.getFilePreview(userData.ProfileImage);
+            setSrc(link);
+          }else{
+            setSrc(null);
+          }// Set fetched user details in state
         } catch (error) {
           console.error("Error fetching user details:", error);
         }
@@ -49,7 +60,7 @@ const User = () => {
     };
 
     fetchUserDetails();
-  }, [slug, authStatus, navigate,userDetails]);
+  }, [authStatus]);
   if (!authStatus) {
     return <p>Loading...</p>;
   }
@@ -60,7 +71,10 @@ const User = () => {
     bio: userDetails.AboutYou,
     skills: userDetails.SpecializedIn,
     isUser:userDetails.isUser,
+    ProfileImage:src,
+
   };
+  // console.log(user.ProfileImage);
   fetchMyReviews();
   return (
     <div className="min-h-screen bg-gray-100">
@@ -82,7 +96,7 @@ const User = () => {
           <div className="flex-wrap flex items-center justify-between gap-4">
             <div>
               <img
-                src="https://via.placeholder.com/100"
+                src={user.ProfileImage?user.ProfileImage:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
                 alt="User Avatar"
                 className="w-24 h-24 rounded-full border-2 border-blue-600"
               />

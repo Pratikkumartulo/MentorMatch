@@ -6,6 +6,8 @@ import { current } from "@reduxjs/toolkit";
 import toast from "react-hot-toast/headless";
 import ratingService from "../Appwrite/reviewConfig";
 import { Link } from "react-router-dom";
+import fileService from "../Appwrite/uploadFile";
+
 
 const ViewUser = () => {
   const authStatus = useSelector((state) => state.auth.userData);
@@ -18,6 +20,7 @@ const ViewUser = () => {
   const [currUserId,setcurrId] = useState(null);
   const [isFollow,setisFollow] = useState(false);
   const [ratings,setRatings] = useState([]);
+  const [src,setSrc] = useState(null);
 
   const getUsername = async()=>{
     const curUser = await DocumentService.getEmailDetails(authStatus.email);
@@ -37,6 +40,12 @@ const ViewUser = () => {
       // console.log(userData);
       if(authStatus.$id===userData.UserID){
           navigate(`/user/${authStatus.$id}`);
+      }
+      if(userData.ProfileImage!=null){
+        let link = await fileService.getFilePreview(userData.ProfileImage);
+        setSrc(link);
+      }else{
+        setSrc(null);
       }
       setUserDetails(userData);
     } catch (error) {
@@ -61,7 +70,7 @@ const ViewUser = () => {
         setIsAdmin(true);
     }
     fetchUserDetails();
-  }, [authStatus, slug, navigate, getUsername, isAdmin,isFollow]);
+  }, []);
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
@@ -83,8 +92,10 @@ const ViewUser = () => {
     isUser: userDetails.isUser,
     followers: userDetails.Follower?.length || 0,
     followings: userDetails.Following?.length || 0,
-    ratings:userDetails.ratings || []
+    ratings:userDetails.ratings || [],
+    ProfileImage:src,
   };
+  console.log(user.ProfileImage);
 
   const calculaterate = ()=>{
     if(user.ratings.length>0){
@@ -138,7 +149,7 @@ const ViewUser = () => {
             <div>
               
               <img
-                src="https://via.placeholder.com/100"
+                src={user.ProfileImage?user.ProfileImage:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
                 alt="User Avatar"
                 className="w-24 h-24 rounded-full border-2 border-blue-600"
               />

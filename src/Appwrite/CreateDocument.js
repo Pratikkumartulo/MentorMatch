@@ -59,13 +59,13 @@ export class createDcoument {
         // console.log(user.documents);
         return user.documents[0];
     }
-    async updateUserDetails(slug,{UserName, Email, SpecializedIn, AboutYou, Phone}){
+    async updateUserDetails(slug,{UserName, Email, SpecializedIn, AboutYou, Phone, ProfileImage=null}){
         try{
            return await this.databases.updateDocument(
             conf.databaseID,
             conf.collectioNID,
             slug,
-            {UserName, Email, SpecializedIn, AboutYou, Phone}
+            {UserName, Email, SpecializedIn, AboutYou, Phone,ProfileImage}
            )
         }catch(err){
             console.log("Update error for post : ",err)

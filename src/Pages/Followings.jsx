@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import DocumentService from '../Appwrite/CreateDocument';
 import { useSelector } from 'react-redux';
 import toast from "react-hot-toast/headless";
+import FollowCard from '../Components/FollowCard';
 
 const Followings = () => {
   const userData = useSelector((state)=>state.auth.userData);
@@ -51,9 +52,9 @@ const Followings = () => {
         <ul className="space-y-4">
           {Followings.map((following, index) => (
             <li key={index} className="flex items-center p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
-              <div className="flex-1 flex justify-between items-center ">
-                <span className="text-lg font-medium text-gray-700">{following}</span>
-                <button onClick={()=>HandleUnFollow({UserName:following})} className='p-0.5 rounded-lg text-red border-red-200 border-2'>Unfollow</button>
+              <div className="flex-1 flex gap-4 justify-between items-center ">
+                <FollowCard userName={following}/>
+                {followBtn?<button onClick={()=>HandleUnFollow({UserName:following})} className='p-0.5 rounded-lg text-red border-red-200 border-2'>Unfollow</button>:null}
               </div>
             </li>
           ))}
