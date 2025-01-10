@@ -22,7 +22,11 @@ const Login = () => {
   const submit = async (data) => {
     if (data) {
       try {
-        // await authServie.logout();
+        // try{
+        //   await authServie.logout();
+        // }catch(err){
+        //   null;
+        // }
         const response = await authServie.Userlogin({ ...data });
         if(response){
           const message =
