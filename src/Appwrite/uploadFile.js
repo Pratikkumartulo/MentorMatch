@@ -46,7 +46,5 @@ export class fileServices{
         )
     }
 }
-
 const fileService = new fileServices()
-
 export default fileService

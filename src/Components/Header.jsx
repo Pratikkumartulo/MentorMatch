@@ -116,6 +116,22 @@ const Header = () => {
           applications
           </Link>
         </li>
+        <li className={`text-gray-300 ${ isNavbarOpen ? 'hidden' : 'block'}`}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              stroke="currentColor"
+              className="w-4 h-4 current-fill"
+              viewBox="0 0 24 24"
+              >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 5v0m0 7v7m-7 0h7m0 0h7"
+              ></path>
+            </svg>
+          </li>
         </>):(
           <>
           <li>

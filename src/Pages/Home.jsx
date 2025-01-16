@@ -35,7 +35,6 @@ const Home = () => {
       <div>
       <form onSubmit={handleSubmit(submit)}>
         <div className='flex justify-center gap-6 flex-wrap text-xl text-[#161D6F]'>
-          
             <label className="flex items-center space-x-2">
               <input
                     type="radio"
@@ -46,7 +45,6 @@ const Home = () => {
                 />
               <span className="">Relationship</span>
             </label>
-
             <label className="flex items-center space-x-2">
                 <input
                     type="radio"
@@ -57,7 +55,6 @@ const Home = () => {
                 />
                 <span>Career</span>
             </label>
-
             <label className="flex items-center space-x-2">
             <input
                     type="radio"
@@ -68,7 +65,6 @@ const Home = () => {
                 />
                 <span>Education</span>
             </label>
-
             <label className="flex items-center space-x-2">
                 <input
                     type="radio"
@@ -79,7 +75,6 @@ const Home = () => {
                 />
                 <span>Strategy</span>
             </label>
-
             <label className="flex items-center space-x-2">
                 <input
                     type="radio"
@@ -112,7 +107,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
       <section className="py-16">
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8 text-[#161D6F]">Why Choose Mentor Connect?</h2>
@@ -132,7 +126,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
       <section className="bg-[#98DED9] py-16">
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8 text-[#161D6F]">What Our Users Say</h2>
@@ -152,7 +145,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
       <section className="bg-[#C7FFD8] text-[#161D6F] py-16 text-center">
         <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
         <p className="mb-8">Join now and start your journey to success with Mentor Connect.</p>
@@ -164,5 +156,4 @@ const Home = () => {
     </div>
   )
 }
-
 export default Home;
