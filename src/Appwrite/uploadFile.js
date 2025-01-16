@@ -45,6 +45,7 @@ export class fileServices{
             fileId
         )
     }
+    
 }
 const fileService = new fileServices()
 export default fileService
