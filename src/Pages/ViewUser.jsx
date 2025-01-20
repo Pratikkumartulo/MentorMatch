@@ -126,6 +126,10 @@ const ViewUser = () => {
     }
   }
 
+  const handleGrant = async(val)=>{
+    const response = await DocumentService.updateUserAppDetails(userDetails.$id,{isUser:val});
+  }
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
@@ -147,7 +151,6 @@ const ViewUser = () => {
         <div className="bg-white shadow rounded-lg p-6 mb-6">
           <div className="flex-wrap flex items-center justify-between gap-4">
             <div>
-              
               <img
                 src={user.ProfileImage?user.ProfileImage:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
                 alt="User Avatar"
@@ -156,9 +159,10 @@ const ViewUser = () => {
               <div>
                 <h2 className="text-xl font-bold">{user.name}</h2>
                 <p className="text-gray-600">{user.email}</p>
-                {!(userDetails.isUser)?<p className="bg-zinc-300 rounded-lg px-2 w-fit">
+                {!(userDetails.isUser)?<p className="mb-2 bg-zinc-300 rounded-lg px-2 w-fit">
                   {calculaterate()}  ⭐
                 </p>:null}
+                {(isAdmin)?(!userDetails.isUser)?(<button className="p-0.5 rounded-lg bg-red-500" onClick={()=>handleGrant(true)}>Revoke</button>):<button onClick={()=>handleGrant(false)} className="rounded-lg p-0.5 bg-green-500">Grant</button>:null}
               </div>
             </div>
             <div className="flex gap-3">

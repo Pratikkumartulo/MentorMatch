@@ -16,7 +16,7 @@ export class createApplication {
             conf.databaseID,
             conf.ApplicationId,
             ID.unique(),
-            {UserName,Email,UserId,message,subject,Accepted}
+            {UserName,Email,UserId,message,subject,Accepted,timestamp:new Date().toISOString()}
         )
         if(createdApplication){
             return true;
@@ -28,9 +28,11 @@ export class createApplication {
         let promise = await this.databases.listDocuments(
             conf.databaseID,
             conf.ApplicationId,
+            [Query.orderAsc("timestamp")]
         )
         if(promise){
-            return promise;
+            console.log(promise)
+            return promise.documents;
         }
     }
     async GetdetailApplications(email){

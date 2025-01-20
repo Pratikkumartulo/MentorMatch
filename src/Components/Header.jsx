@@ -113,7 +113,7 @@ const Header = () => {
         <>
         <li>
           <Link to={"/admin/applications"}>
-          applications
+          Applications
           </Link>
         </li>
         <li className={`text-gray-300 ${ isNavbarOpen ? 'hidden' : 'block'}`}>

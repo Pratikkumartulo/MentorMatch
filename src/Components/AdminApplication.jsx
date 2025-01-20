@@ -15,9 +15,9 @@ const Adminapplication = () => {
   }
 
   const AllApplication = async()=>{
-    const applications = await ApplicationService.GetAllApplications();
+    const applications = (await ApplicationService.GetAllApplications()).reverse();
     let AppliList = [];
-    (applications.documents).forEach((item)=>{
+    (applications).forEach((item)=>{
         let ItemSet = {};
         ItemSet['AppId']=item.$id
         ItemSet['id']=item.UserId,
@@ -57,18 +57,16 @@ const Adminapplication = () => {
     };
 
     fetchApplications();
-  }, [applications,AllApplication]);
+  }, []);
 
   const handleApprove = async(id,userid,email) => {
     const response = await ApplicationService.updateApplicationDetails(id,{IsOpen:false,Accepted:true});
     const userResponse = await DocumentService.updateUserAppDetails(userid,{isUser:false});
-    console.log(response);
     AllApplication();
   };
 
   const handleReject = async(id) => {
     const response = await ApplicationService.updateApplicationDetails(id,{IsOpen:false,Accepted:false});
-    console.log(response);
     AllApplication();
   };
 

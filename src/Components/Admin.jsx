@@ -26,8 +26,7 @@ const AdminPage = () => {
   };
   const getAllApplications = async ()=>{
     const applications = await ApplicationService.GetAllApplications();
-    console.log(applications);
-    setApplicationsno(applications.total);
+    setApplicationsno(applications.length);
   }
 
   // Mock data - Replace this with actual API calls to fetch applications
