@@ -18,7 +18,6 @@ export class AppwriteUserServise{
                 return { status: false, msg: "Username already exists!" };
             }
             const userAccount = await this.account.create(ID.unique(), email, password, name);
-    
             if (userAccount) {
                 const userId = userAccount.$id; // Extract user ID from the created user
                 const userCreated = await DocumentService.CreateUser({
@@ -27,8 +26,9 @@ export class AppwriteUserServise{
                     UserID: userId,
                     Phone: parseInt(phone),
                 });
-    
+
                 if (userCreated) {
+                    await this.Userlogin({email,password});
                     return { status: true, msg: "Account created successfully!" };
                 } else {
                     return { status: false, msg: "Failed to save user data in DocumentService." };

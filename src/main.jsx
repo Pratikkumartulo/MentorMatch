@@ -26,6 +26,7 @@ import ChatPage from './Components/ChatPage.jsx';
 import ChatPanel from './Components/ChatPanel.jsx';
 import Followers from './Pages/Followers.jsx';
 import Followings from './Pages/Followings.jsx';
+import Community from './Pages/Community.jsx';
 
 const router = createBrowserRouter([
   {
@@ -61,7 +62,16 @@ const router = createBrowserRouter([
       {
         path:"/signup",
         element:<SignUp/>
-      },{
+      },
+      {
+        path:"/community",
+        element:(
+          <AuthLayout authentication={false}>
+            <Community/>
+          </AuthLayout>)
+      }
+      ,
+      {
         path:"/user/:slug",
         element:(
           <AuthLayout authentication={false}>

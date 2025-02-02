@@ -95,7 +95,7 @@ const Login = () => {
           <Toaster />
         </div>
       </div>
-      <LogoutButton/>
+      {/* <LogoutButton/> */}
     </div>
   );
 };

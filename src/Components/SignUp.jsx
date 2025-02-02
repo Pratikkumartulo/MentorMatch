@@ -23,7 +23,9 @@ const SignUp = () => {
                 const response = await authServie.UserSignUp({ ...data });
                 const message = typeof response.msg === "string" ? response.msg : response.msg?.toString() || "An unknown error occurred.";
                 toast(message);
-                navigate("/");
+                if(response){
+                    navigate("/");
+                }
             } catch (error) {
                 toast(error.message || "Failed to sign up. Please try again.");
             }

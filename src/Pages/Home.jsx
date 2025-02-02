@@ -93,9 +93,9 @@ const Home = () => {
       </div>
     </div>
       <div className="">
-      <section className="bg-[#C7FFD8] text-[#161D6F] py-16">
+      <section className="bg-blue-400 text-[#161D6F] py-16">
         <div className="container mx-auto text-center">
-          <h1 className="text-4xl font-bold mb-4">Connect with the Mentors Who Can Change Your Life</h1>
+          <h1 className="text-4xl font-title font-bold mb-4">Connect with the Mentors Who Can Change Your Life</h1>
           <p className="text-lg mb-8">Find the guidance you need to grow in your career and personal development.</p>
           <div className="space-x-4">
             <button onClick={openDialogBox} className="bg-[#161D6F] text-white px-6 py-3 rounded hover:bg-[#98DED9]">

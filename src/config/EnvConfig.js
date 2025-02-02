@@ -6,7 +6,8 @@ const conf = {
     quoteId: import.meta.env.VITE_QUOTE_ID,
     ApplicationId:import.meta.env.VITE_APPLICATION_ID,
     MessagingId:import.meta.env.VITE_MESSAGING_ID,
-    reviewId:import.meta.env.VITE_REVIEW_ID
+    reviewId:import.meta.env.VITE_REVIEW_ID,
+    communityId:import.meta.env.VITE_PUBLIC_ID
 }
 
 export default conf

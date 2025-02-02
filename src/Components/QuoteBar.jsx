@@ -29,7 +29,7 @@ const QuoteBar = () => {
     }, [dispatch, isFetched]);
 
     return (
-        <div className="bg-zinc-200 w-[100vw] text-center text-sm">
+        <div className="bg-[#0C0C0C] border-gray-900 border-2 text-white w-[100vw] text-center text-sm">
             <p className="italic">Quote of the day : "{quote}"</p>
         </div>
     );

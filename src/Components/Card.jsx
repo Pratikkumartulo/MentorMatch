@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import fileService from '../Appwrite/uploadFile';
+import { useSelector } from 'react-redux';
+import DocumentService from '../Appwrite/CreateDocument';
 
 const Card = ({ mentor }) => {
     const navigate = useNavigate();
+    const userDetail = useSelector((state) => state.auth.userData);
+    const [currUser, setcurrUser] =useState(null);
     const hanldeConnect = (mentor)=>{
+        console.log(mentor);
         navigate(`/chat/${currUser}_${mentor}`);
     }
     const [src,setSrc] =useState(null);
@@ -16,6 +21,11 @@ const Card = ({ mentor }) => {
         }
     }
     useEffect(()=>{
+        const fetchUser = async ()=>{
+            const user = await DocumentService.getEmailDetails(userDetail.email);
+            setcurrUser(user.UserName);
+        }
+        fetchUser();
         ProfileImage();
     },[])
     return (
