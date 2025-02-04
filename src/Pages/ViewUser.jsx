@@ -103,7 +103,7 @@ const ViewUser = () => {
         user.ratings.map((rate)=>{
             sum+=rate;
         });
-        return sum/user.ratings.length;
+        return (sum/user.ratings.length).toFixed(1);
       }else{
         return "No ratings yet";
       }
