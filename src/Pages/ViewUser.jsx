@@ -207,7 +207,7 @@ const ViewUser = () => {
                 <div key={index} className="p-4 rounded-lg flex flex-col gap-2 flex-wrap bg-zinc-300 w-fit">
                   <ul className="list-none">
                     <Link to={`/u/${rate.ratedBy}`}><li className="font-bold">{rate.ratedBy}</li></Link>
-                    <li>{rate.rating} ⭐</li>
+                    <li>{(rate.rating).toFixed(1)} ⭐</li>
                     <li>{rate.review}</li>
                   </ul>
                 </div>
