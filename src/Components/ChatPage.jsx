@@ -12,7 +12,7 @@ const ChatPage = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // For mobile view toggle
 
     const getChats = async () => {
-        const user = await DocumentService.getEmailDetails(userDetail.email);
+        const user = userDetail.userData;
         setCurrUser(user.UserName);
         let ChatsWiths = [];
         for (const element of user.ChatsWith) {

@@ -14,12 +14,12 @@ const Followings = () => {
   const { slug } = useParams();
 
   const getCurrentUser = async()=>{
-    const user = await DocumentService.getEmailDetails(userData.email);
+    const user = userData.userData;
     setcurrUser(user);
   }
   const getFollowings = async () => {
     const followers = await DocumentService.getIdDetails(slug);
-    if(!userData.labels.includes('admin')){
+    if(!userData.userData.labels.includes('admin')){
         if(followers.UserID === userData.$id){
             setFollowBtn(true);
         }else{

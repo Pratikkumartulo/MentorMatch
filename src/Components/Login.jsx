@@ -1,15 +1,20 @@
 import { useForm } from "react-hook-form";
 import React from "react";
 import authServie from "../Appwrite/UserConfig";
+import DocumentService from "../Appwrite/CreateDocument";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { StatusDone,StatusFailure } from "../store/ToastSlice";
 import { login } from "../store/AuthSlice";
 import LogoutButton from "./LogoutBtn";
 import { Link, useNavigate } from 'react-router-dom'
+import { use } from "react";
+
 
 
 const Login = () => {
+  const authStatus = useSelector((state)=>state.auth.userData);
+  console.log(authStatus);
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const { register, handleSubmit } = useForm({
@@ -28,23 +33,31 @@ const Login = () => {
         //   null;
         // }
         const response = await authServie.Userlogin({ ...data });
+        const userData1 = await authServie.getCurrentUser();
+        console.log(userData1.email)
+        const fullData = await DocumentService.getEmailDetails(userData1.email);
+        console.log(fullData);
         if(response){
           const message =
             typeof response.msg === "string"
               ? response.msg
               : response.msg?.toString() || "Login Successful!";
           dispatch(StatusDone(message));
-          const userData = await authServie.getCurrentUser()
-          if(userData) {
+          console.log(typeof fullData === "undefined")
+          let userData2 = {...userData1,...fullData}
+          console.log(userData2)
+          if(userData1){
             const payload = {
-              ...userData,
-              isAdmin: false,
+              userData:(typeof fullData === "undefined")?{...userData1}:userData2,
+              isAdmin: (typeof fullData === "undefined")?true:false,
             };
+            console.log(payload);
             dispatch(login(payload))
           }
           navigate("/")
         }
       } catch (error) {
+        console.log(error);
         dispatch(StatusFailure("Login Error !!"));
       }
     }
@@ -95,7 +108,7 @@ const Login = () => {
           <Toaster />
         </div>
       </div>
-      {/* <LogoutButton/> */}
+      <LogoutButton/>
     </div>
   );
 };

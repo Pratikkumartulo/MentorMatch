@@ -10,8 +10,9 @@ const Header = () => {
   }
     let isAdmin = false;
     const authStatus = useSelector((state)=>state.auth.userData);
+    console.log(authStatus);
     if(authStatus){
-      if(authStatus.labels[0]==='admin'){
+      if(authStatus.userData.labels[0]==='admin'){
         isAdmin =true;
       }else{
         isAdmin = false;
@@ -28,7 +29,7 @@ const Header = () => {
     }, 
     {
       name: "Profile",
-      slug: (authStatus)?`/user/${authStatus.$id}`:`/login`,
+      slug: (authStatus)?`/user/${authStatus.userData.$id}`:`/login`,
       active: !isAdmin,
     },
     {
@@ -142,7 +143,7 @@ const Header = () => {
         </>):(
           <>
           <li>
-            <Link className="text-sm text-white hover:text-gray-500" to={(authStatus)?`/user/${authStatus.$id}`:`/login`}>
+            <Link className="text-sm text-white hover:text-gray-500" to={(authStatus)?`/user/${authStatus.userData.$id}`:`/login`}>
             Profile
             </Link>
           </li>

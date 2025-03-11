@@ -11,6 +11,7 @@ import { Outlet } from 'react-router-dom'
 import authServie from './Appwrite/UserConfig'
 import { login,logout } from './store/AuthSlice'
 import { useDispatch } from 'react-redux'
+import DocumentService from './Appwrite/CreateDocument'
 
 
 
@@ -22,13 +23,16 @@ function App() {
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    authServie.getCurrentUser()
-    .then((user=>{
-      dispatch(login(user));
-    }))
-    .catch(()=>{
-      dispatch(logout());
-    })
+    // authServie.getCurrentUser()
+    // .then((user=> async ()=>{
+    //   const fullData = await DocumentService.getEmailDetails(user.email);
+    //   let userData = {...user,...fullData}
+    //   console.log(userData);
+    //   dispatch(login(userData));
+    // }))
+    // .catch(()=>{
+    //   dispatch(logout());
+    // })
     if (initialized) {
       if (status) {
         toast.success(msg);

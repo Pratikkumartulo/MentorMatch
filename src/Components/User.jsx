@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ratingService from "../Appwrite/reviewConfig";
 import fileService from "../Appwrite/uploadFile";
-import { use } from "react";
 
 const User = () => {
   const authStatus = useSelector((state) => state.auth.userData);
@@ -24,7 +23,8 @@ const User = () => {
     followers:0,
     followings:0,
     ProfileImage:null,
-
+    Follower:[],
+    Following:[],
   });
 
   const fetchMyReviews=async()=>{
@@ -36,31 +36,38 @@ const User = () => {
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      if (!slug) {
-        navigate("/login");
-        return;
-      }
-
-      if (authStatus && slug === authStatus.$id) {
-        try {
-          const userData = await DocumentService.getEmailDetails(authStatus.email);
-          setUserDetails(userData);
-          if(userData.ProfileImage!=null){
-            let link = await fileService.getFilePreview(userData.ProfileImage);
-            setSrc(link);
-          }else{
-            setSrc(null);
-          }// Set fetched user details in state
-        } catch (error) {
-          console.error("Error fetching user details:", error);
+        if (!slug) {
+            navigate("/login");
+            return;
         }
-      } else {
-        navigate("/login");
-      }
+        if (authStatus && slug === authStatus.userData.$id) {
+            try {
+                console.log(authStatus.userData);
+                setUserDetails(authStatus.userData);
+
+                if (authStatus.userData.ProfileImage != null) {
+                    let link = await fileService.getFilePreview(authStatus.userData.ProfileImage);
+                    setSrc(link);
+                } else {
+                    setSrc(null);
+                }
+            } catch (error) {
+                console.error("Error fetching user details:", error);
+            }
+        } else {
+            navigate("/login");
+        }
     };
 
-    fetchUserDetails();
-  }, []);
+    const fetchData = async () => {
+        await fetchUserDetails();
+        await fetchMyReviews();
+    };
+
+    fetchData();
+}, [slug, navigate]);  // ✅ Fix: Correct dependencies
+
+
   if (!authStatus) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>
   }
@@ -83,7 +90,7 @@ const User = () => {
         <div className="container mx-auto px-4 flex justify-between align-center">
           <h1 className="text-2xl font-bold">User Profile</h1>
           <div className="p-2 rounded-lg bg-red-500">
-          <Link to={`/user/${authStatus.$id}/edit`}>
+          <Link to={`/user/${authStatus.userData.$id}/edit`}>
           Edit</Link>
           </div>
         </div>
@@ -122,7 +129,7 @@ const User = () => {
               <div>{(userDetails.Following==undefined)?0:userDetails.Following.length}</div>
               <div><Link to={`/u/${user.name}/followings`}>Followings</Link></div>
             </div>)}
-            {!(user.isUser)?null:(<Link to={`/user/${authStatus.$id}/application`} className="bg-green-500 p-1 rounded-lg">Be a mentor</Link>)}
+            {!(user.isUser)?null:(<Link to={`/user/${authStatus.userData.$id}/application`} className="bg-green-500 p-1 rounded-lg">Be a mentor</Link>)}
           </div>
         </div>
 

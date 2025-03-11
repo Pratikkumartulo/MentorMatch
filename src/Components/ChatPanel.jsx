@@ -82,7 +82,7 @@ const ChatPanel = () => {
                 const chatHistory1 = await ChatService.fetchChatHistory(chatRoomId1);
                 const chatHistory2 = await ChatService.fetchChatHistory(chatRoomId2);
                 await DocumentService.updateUserChatDetails(username1, username2);
-                const rate = await DocumentService.getEmailDetails(currUser.email);
+                const rate = currUser.userData;
                 setcanRate(rate.isUser);
                 const combinedMessages = [...chatHistory1, ...chatHistory2].sort(
                     (a, b) => new Date(a.timestamp) - new Date(b.timestamp)

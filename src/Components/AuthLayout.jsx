@@ -10,6 +10,8 @@ const Protected = ({ children, authentication = true }) => {
   const navigate = useNavigate();
   const [loader, setLoader] = useState(true);
   const authStatus = useSelector((state) => state.auth.status);
+  const authData = useSelector((state) => state.auth.userData);
+  console.log(authData);
 
 
   useEffect(() => {
@@ -17,9 +19,8 @@ const Protected = ({ children, authentication = true }) => {
 
     const checkUser = async () => {
       try {
-        const userData = await authService.getCurrentUser();
         if (isMounted) {
-          if (!userData) {
+          if (!authStatus) {
             dispatch(StatusFailure("You have to log in!"));
             navigate("/login");
           } else {

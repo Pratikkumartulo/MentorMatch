@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import DocumentService from "../Appwrite/CreateDocument";
 import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import fileService from "../Appwrite/uploadFile";
+import { login } from "../store/AuthSlice";
 
 const UserEdit = () => {
   const { slug } = useParams();
   const authStatus = useSelector((state) => state.auth.userData);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [userDetails, setUserDetails] = useState({
     Id:"",
@@ -37,8 +39,7 @@ const UserEdit = () => {
     }
 
     try {
-      const userData = await DocumentService.getEmailDetails(authStatus.email);
-
+      const userData = authStatus.userData;
       const fetchedDetails = {
         Id:userData.$id || "",
         UserName: userData.UserName || "",
@@ -63,7 +64,7 @@ const UserEdit = () => {
 
   const submit = async (data) => {
     console.log(data);
-    // console.log(file);
+    console.log(authStatus);
     let file;
       if (data.profileimg && data.profileimg.length > 0) {
         file = await fileService.uploadFile(data.profileimg[0]);
@@ -74,7 +75,9 @@ const UserEdit = () => {
       }
     try {
       await DocumentService.updateUserDetails(userDetails.Id, {...data,ProfileImage:file?file.$id:userDetails.ProfileImage}); 
+      dispatch(login({userData:{...authStatus.userData,AboutYou: data.AboutYou,SpecializedIn: data.SpecializedIn,ProfileImage: file?file.$id:userDetails.ProfileImage},isAdmin:false}));
       toast.success("Profile updated successfully!");
+
       navigate(`/user/${slug}`);
     } catch (error) {
       toast.error("Failed to update profile.");
