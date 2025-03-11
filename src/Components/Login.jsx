@@ -10,8 +10,6 @@ import LogoutButton from "./LogoutBtn";
 import { Link, useNavigate } from 'react-router-dom'
 import { use } from "react";
 
-
-
 const Login = () => {
   const authStatus = useSelector((state)=>state.auth.userData);
   console.log(authStatus);
