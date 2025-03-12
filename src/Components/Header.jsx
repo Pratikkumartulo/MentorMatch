@@ -221,7 +221,7 @@ const Header = () => {
         </li>
         <li>
           <a className="text-sm text-white hover:text-gray-500" href="#">
-            Contact
+            About
           </a>
         </li>
       </ul>
