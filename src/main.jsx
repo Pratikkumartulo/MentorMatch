@@ -27,6 +27,7 @@ import ChatPanel from './Components/ChatPanel.jsx';
 import Followers from './Pages/Followers.jsx';
 import Followings from './Pages/Followings.jsx';
 import Community from './Pages/Community.jsx';
+import CommingSoon from './Pages/commingSoon.jsx';
 
 const router = createBrowserRouter([
   {
@@ -35,12 +36,16 @@ const router = createBrowserRouter([
     children:[
       {
         path:"/",
-        element:<Home/>
+        element:(
+          <AuthLayout authentication={false}>
+            <Home/>
+          </AuthLayout>
+          )
       },
       {
         path:"/chat",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication={true}>
             <ChatPage/>
           </AuthLayout>),
 
@@ -67,21 +72,21 @@ const router = createBrowserRouter([
         path:"/community",
         element:(
           <AuthLayout authentication={false}>
-            <Community/>
+            <CommingSoon/>
           </AuthLayout>)
       }
       ,
       {
         path:"/user/:slug",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication={true}>
               <User/>
           </AuthLayout>
       )},
       {
         path:"/u/:slug",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication={true}>
             <ViewUser/>
           </AuthLayout>
         )
@@ -89,7 +94,7 @@ const router = createBrowserRouter([
       {
         path:"/u/:slug/followers",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication={true}>
             <Followers/>
           </AuthLayout>
         )
@@ -97,7 +102,7 @@ const router = createBrowserRouter([
       {
         path:"/u/:slug/followings",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication={true}>
             <Followings/>
           </AuthLayout>
         )
@@ -113,21 +118,21 @@ const router = createBrowserRouter([
       {
         path:'user/:slug/edit',
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication={true}>
             <UserEdit/>
           </AuthLayout>
         )
       },{
         path:'user/:slug/application',
         element:(
-            <AuthLayout authentication={false}>
+            <AuthLayout authentication={true}>
               <Application/>
             </AuthLayout>
             )
       },{
         path:"/admin",
         element:(
-        <AuthLayout authentication={false}>
+        <AuthLayout authentication={true}>
           <AdminPage/>
         </AuthLayout>)
       },
@@ -138,7 +143,7 @@ const router = createBrowserRouter([
       {
         path:"/admin/applications",
         element:(
-          <AuthLayout authentication={false}>
+          <AuthLayout authentication={true}>
             <Adminapplication/>
           </AuthLayout>
         )

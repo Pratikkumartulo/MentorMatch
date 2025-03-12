@@ -7,14 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { StatusDone,StatusFailure } from "../store/ToastSlice";
 import { login } from "../store/AuthSlice";
 import LogoutButton from "./LogoutBtn";
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 import { use } from "react";
 
 const Login = () => {
   const authStatus = useSelector((state)=>state.auth.userData);
   console.log(authStatus);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { register, handleSubmit } = useForm({
     defaultValues: {
       email: "",
@@ -32,7 +32,6 @@ const Login = () => {
         // }
         const response = await authServie.Userlogin({ ...data });
         const userData1 = await authServie.getCurrentUser();
-        console.log(userData1.email)
         const fullData = await DocumentService.getEmailDetails(userData1.email);
         console.log(fullData);
         if(response){

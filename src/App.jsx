@@ -19,8 +19,24 @@ function App() {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.Toast.success);
   const msg = useSelector((state) => state.Toast.msg);
+  const authStatus = useSelector((state)=>state.auth.userData);
+  // console.log(authStatus);
+
+  const fetch = async ()=>{
+    const fullData = await DocumentService.getEmailDetails(authStatus.userData.email);
+    const payload = {
+      userData:(typeof fullData === "undefined")?{...authStatus.userData}:{...authStatus.userData,...fullData},
+      isAdmin: (typeof fullData === "undefined")?true:false,
+    };
+    dispatch(login(payload))
+  }
+
+  // if(authStatus){
+  //     fetch(); 
+  //   }
 
   const [initialized, setInitialized] = useState(false);
+
 
   useEffect(() => {
     // authServie.getCurrentUser()

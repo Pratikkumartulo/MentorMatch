@@ -8,9 +8,6 @@ import Card from "../Components/Card";
 const ViewMentor = () => {
   const navigate = useNavigate();
   const userDetail = useSelector((state) => state.auth.userData);
-  if(!userDetail){
-    navigate("/login");
-  }
   const [searchTerm, setSearchTerm] = useState("");
   const {slug} = useParams();
   const [allmentors,setAllmentors] = useState([]);

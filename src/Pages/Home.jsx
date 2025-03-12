@@ -21,10 +21,10 @@ const Home = () => {
   },[])
   return (
     <div className='flex flex-col overflow-hidden relative bg-[#F6F6F6]'>
-      <Header/>
+      <div className={`Translucent backdrop-blur-lg absolute h-[100%] w-[100%] top-0 right-0 z-98 ${(dialogbox)?null:"hidden"}`}></div>
       <QuoteBar/>
-      <div className={`flex flex-col absolute h-1/4 w-3/4 bg-[#C7FFD8] top-[25%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-lg overflow-hidden ${(dialogbox)?null:"hidden"}`}>
-      <div className='h-[10%] w-full bg-[#98DED9] relative'>
+      <div className={`flex flex-col absolute h-1/4 w-3/4 bg-blue-400 backdrop-blur-lg top-[25%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-lg overflow-hidden ${(dialogbox)?null:"hidden"} z-99`}>
+      <div className='h-[10%] w-full bg-white relative'>
         <div className='h-full z-20 w-[100%] text-center text-xl text-[#161D6F]'>
           Tell us what do you want to talk about
         </div>
@@ -99,10 +99,7 @@ const Home = () => {
           <p className="text-lg mb-8">Find the guidance you need to grow in your career and personal development.</p>
           <div className="space-x-4">
             <button onClick={openDialogBox} className="bg-[#161D6F] text-white px-6 py-3 rounded hover:bg-[#98DED9]">
-              Get Started
-            </button>
-            <button className="bg-transparent border border-[#161D6F] px-6 py-3 rounded hover:bg-[#98DED9]">
-              Learn More
+              Get mentor
             </button>
           </div>
         </div>
@@ -148,9 +145,9 @@ const Home = () => {
       <section className="bg-[#C7FFD8] text-[#161D6F] py-16 text-center">
         <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
         <p className="mb-8">Join now and start your journey to success with Mentor Connect.</p>
-        <button className="bg-[#161D6F] text-white px-8 py-3 rounded hover:bg-[#98DED9]">
+        <div className="bg-[#161D6F] text-white px-8 py-3 rounded">
           Join Now – It's Free!
-        </button>
+        </div>
       </section>
     </div>
     </div>

@@ -66,7 +66,7 @@ const ViewUser = () => {
   useEffect(() => {
     getUsername();
     fetchReviews();
-    if (authStatus && authStatus.labels?.includes("admin")) {
+    if (authStatus && authStatus.userData.labels?.includes("admin")) {
         setIsAdmin(true);
     }
     fetchUserDetails();

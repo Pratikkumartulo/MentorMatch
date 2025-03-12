@@ -11,27 +11,31 @@ const Protected = ({ children, authentication = true }) => {
   const [loader, setLoader] = useState(true);
   const authStatus = useSelector((state) => state.auth.status);
   const authData = useSelector((state) => state.auth.userData);
-  console.log(authData);
+  // console.log(authData);
 
 
   useEffect(() => {
     let isMounted = true; // Track if the component is mounted
 
     const checkUser = async () => {
-      try {
-        if (isMounted) {
-          if (!authStatus) {
-            dispatch(StatusFailure("You have to log in!"));
-            navigate("/login");
-          } else {
-            setLoader(false);
+      if(authentication){
+        try {
+          if (isMounted) {
+            if (!authStatus) {
+              dispatch(StatusFailure("You have to log in!"));
+              navigate("/login");
+            } else {
+              setLoader(false);
+            }
+          }
+        } catch (error) {
+          if (isMounted) {
+            console.error("Error fetching user data:", error);
+            dispatch(StatusFailure("Error verifying authentication!"));
           }
         }
-      } catch (error) {
-        if (isMounted) {
-          console.error("Error fetching user data:", error);
-          dispatch(StatusFailure("Error verifying authentication!"));
-        }
+      }else{
+        setLoader(false);
       }
     };
 

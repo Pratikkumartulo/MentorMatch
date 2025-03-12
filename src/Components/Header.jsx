@@ -10,7 +10,7 @@ const Header = () => {
   }
     let isAdmin = false;
     const authStatus = useSelector((state)=>state.auth.userData);
-    console.log(authStatus);
+    // console.log(authStatus);
     if(authStatus){
       if(authStatus.userData.labels[0]==='admin'){
         isAdmin =true;

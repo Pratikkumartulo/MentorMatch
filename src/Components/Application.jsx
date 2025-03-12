@@ -17,7 +17,7 @@ const Application = () => {
     const [userDetails, setUserDetails] = useState({
         Id:"",
         UserName: "",
-        Email: "",
+        Email: authStatus.userData.Email,
         AboutYou: "",
         phone: "",
         SpecializedIn: [],
@@ -33,7 +33,7 @@ const Application = () => {
       return;
     }
     try {
-      const userData = await DocumentService.getEmailDetails(authStatus.email);
+      const userData = authStatus.userData;
       // console.log(userData);
       const fetchedDetails = {
         Id:userData.$id || "",
@@ -71,7 +71,7 @@ const Application = () => {
     const validUser = async () => {
       try {
         const response = await ApplicationService.GetdetailApplications(userDetails.Email);
-        // console.log(response.documents);
+        console.log(response.documents);
         if (response.documents.length > 0 || !userDetails.isUser) {
           setisvalid(false);
         } else {
@@ -87,7 +87,7 @@ const Application = () => {
     if (userDetails.Email) {
       validUser();
     }
-  }, [userDetails]);
+  }, []);
   
 
   const onSubmit = (data) => {
