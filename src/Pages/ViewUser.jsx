@@ -23,7 +23,7 @@ const ViewUser = () => {
   const [src,setSrc] = useState(null);
 
   const getUsername = async()=>{
-    const curUser = await DocumentService.getEmailDetails(authStatus.email);
+    const curUser = authStatus.userData;
     if(!isAdmin){
         if(curUser.Following.includes(userDetails.UserName)){
             setisFollow(true);
@@ -37,9 +37,9 @@ const ViewUser = () => {
    const fetchUserDetails = async () => {
     try {
       const userData = await DocumentService.getIdDetails(slug);
-      // console.log(userData);
-      if(authStatus.$id===userData.UserID){
-          navigate(`/user/${authStatus.$id}`);
+      // console.log(authStatus.userData);
+      if(authStatus.userData.UserName===slug){
+          navigate(`/user/${authStatus.userData.$id}`);
       }
       if(userData.ProfileImage!=null){
         let link = await fileService.getFilePreview(userData.ProfileImage);
