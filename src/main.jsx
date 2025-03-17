@@ -27,7 +27,7 @@ import ChatPanel from './Components/ChatPanel.jsx';
 import Followers from './Pages/Followers.jsx';
 import Followings from './Pages/Followings.jsx';
 import Community from './Pages/Community.jsx';
-import CommingSoon from './Pages/commingSoon.jsx';
+import CommingSoon from './Pages/CommingSoon.jsx';
 
 const router = createBrowserRouter([
   {
