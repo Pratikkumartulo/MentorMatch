@@ -2,73 +2,79 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
-import authService from "../Appwrite/UserConfig";
 import { StatusDone, StatusFailure } from "../store/ToastSlice";
 
-const Protected = ({ children, authentication = true }) => {
+const Protected = ({ children, authentication = true, isadminreq = false }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [loader, setLoader] = useState(true);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
   const authStatus = useSelector((state) => state.auth.status);
   const authData = useSelector((state) => state.auth.userData);
-  // console.log(authData);
-
 
   useEffect(() => {
-    let isMounted = true; // Track if the component is mounted
-
-    const checkUser = async () => {
-      if(authentication){
-        try {
-          if (isMounted) {
-            if (!authStatus) {
-              dispatch(StatusFailure("You have to log in!"));
-              navigate("/login");
-            } else {
-              setLoader(false);
-            }
-          }
-        } catch (error) {
-          if (isMounted) {
-            console.error("Error fetching user data:", error);
-            dispatch(StatusFailure("Error verifying authentication!"));
-          }
+    const checkAuth = async () => {
+      if (authentication) {
+        if (!authStatus) {
+          dispatch(StatusFailure("You have to log in!"));
+          navigate("/login");
+          return;
         }
-      }else{
-        setLoader(false);
+
+        if (isadminreq) {
+          if (
+            authData &&
+            authData.userData &&
+            Array.isArray(authData.userData.labels) &&
+            authData.userData.labels.includes("admin")
+          ) {
+            setIsAuthorized(true);
+          } else {
+            dispatch(StatusFailure("You are not authorized to access this page!"));
+            navigate("/");
+            return;
+          }
+        } else {
+          setIsAuthorized(true);
+        }
+      } else {
+        setIsAuthorized(true);
       }
+
+      setLoader(false);
     };
 
-    checkUser();
-
-    // Cleanup function to prevent state updates after unmount
-    return () => {
-      isMounted = false;
-    };
-  }, [authStatus, navigate, authentication, dispatch]);
+    checkAuth();
+  }, [authStatus, authData, authentication, isadminreq, dispatch, navigate]);
 
   if (loader) {
     return (
-    <div>
-      <Header/>
-      <div className="h-screen w-full flex justify-center items-center">
-        <div
-          className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-          role="status">
-          <span
-          className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
-          >Loading...</span>
+      <div>
+        <Header />
+        <div className="h-screen w-full flex justify-center items-center">
+          <div
+            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+            role="status"
+          >
+            <span className="sr-only">Loading...</span>
           </div>
+        </div>
       </div>
-    </div>); // Show loader while verifying authentication
+    );
   }
 
-  return (
-    <div>
-      <Header />
-      {children}
-    </div>
-  );
+  if (isAuthorized) {
+    return (
+      <div>
+        <Header />
+        {children}
+      </div>
+    );
+  }
+
+  return null; // Fallback to nothing if not authorized (should never hit this due to navigate)
 };
 
 export default Protected;

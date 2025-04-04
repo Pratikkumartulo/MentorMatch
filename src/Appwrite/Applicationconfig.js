@@ -31,7 +31,7 @@ export class createApplication {
             [Query.orderAsc("timestamp")]
         )
         if(promise){
-            console.log(promise)
+            // console.log(promise)
             return promise.documents;
         }
     }
@@ -49,7 +49,7 @@ export class createApplication {
         }
     }
     async updateApplicationDetails(slug,{IsOpen,Accepted}){
-        console.log(slug,IsOpen);
+        // console.log(slug,IsOpen);
         try{
            return await this.databases.updateDocument(
             conf.databaseID,

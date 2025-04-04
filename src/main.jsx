@@ -132,7 +132,7 @@ const router = createBrowserRouter([
       },{
         path:"/admin",
         element:(
-        <AuthLayout authentication={true}>
+        <AuthLayout authentication={true} isadminreq={true}>
           <AdminPage/>
         </AuthLayout>)
       },
@@ -143,7 +143,7 @@ const router = createBrowserRouter([
       {
         path:"/admin/applications",
         element:(
-          <AuthLayout authentication={true}>
+          <AuthLayout authentication={true} isadminreq={true}>
             <Adminapplication/>
           </AuthLayout>
         )
