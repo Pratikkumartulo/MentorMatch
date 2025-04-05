@@ -16,6 +16,7 @@
     "@mui/material": "^6.3.0",
     "@mui/styled-engine-sc": "^6.3.0",
     "@reduxjs/toolkit": "^2.3.0",
+    "@zegocloud/zego-uikit-prebuilt": "^2.14.3-beta",
     "appwrite": "^14.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

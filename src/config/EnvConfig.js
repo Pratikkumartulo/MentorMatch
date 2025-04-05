@@ -7,7 +7,9 @@ const conf = {
     ApplicationId:import.meta.env.VITE_APPLICATION_ID,
     MessagingId:import.meta.env.VITE_MESSAGING_ID,
     reviewId:import.meta.env.VITE_REVIEW_ID,
-    communityId:import.meta.env.VITE_PUBLIC_ID
+    communityId:import.meta.env.VITE_PUBLIC_ID,
+    appIds : import.meta.env.VITE_VIDEO_APP_ID,
+    serverSecret : import.meta.env.VITE_SERVER_SECRET_VIDEO,
 }
 
 export default conf

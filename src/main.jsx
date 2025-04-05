@@ -27,7 +27,8 @@ import ChatPanel from './Components/ChatPanel.jsx';
 import Followers from './Pages/Followers.jsx';
 import Followings from './Pages/Followings.jsx';
 import Community from './Pages/Community.jsx';
-import CommingSoon from './Pages/CommingSoon.jsx';
+import CommingSoon from './Pages/commingSoon.jsx';
+import VideoConference from './Components/VideoConference.jsx';
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,13 @@ const router = createBrowserRouter([
         element:(
           <AuthLayout authentication={false}>
             <CommingSoon/>
+          </AuthLayout>)
+      },
+      {
+        path:"/chat/:slug/videoConf",
+        element:(
+          <AuthLayout authentication={true}>
+            <VideoConference/>
           </AuthLayout>)
       }
       ,

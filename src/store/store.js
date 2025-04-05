@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage'; // Local storage
 import authReducer from './AuthSlice';
 import ToastSlice from './ToastSlice';
 import QuoteSlice from './QuoteSlice';
+import VideoId from './VideoSlice';
 
 const authPersistConfig = {
   key: 'auth',
@@ -17,6 +18,7 @@ const store = configureStore({
     Toast: ToastSlice,
     auth: persistedAuthReducer,
     TodayQuote: QuoteSlice,
+    videoId: VideoId,
   },
 });
 
